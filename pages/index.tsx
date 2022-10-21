@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Head from 'next/head'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { Layout, List } from 'antd';
 import Link from 'next/link';
@@ -41,6 +42,10 @@ export async function getStaticProps() {
 const Home: NextPage = (movies) => {
     const data = movies.data.allFilms.films
     return (
+      <>
+        <Head>
+          <title>Far-far far far jafar jar-jar away</title>
+        </Head>
         <Layout>
             <List
                 itemLayout="horizontal"
@@ -59,7 +64,7 @@ const Home: NextPage = (movies) => {
                 }
             />
         </Layout >
-
+      </>
     )
 }
 
