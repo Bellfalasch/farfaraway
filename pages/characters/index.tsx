@@ -1,3 +1,4 @@
+import type { NextPage } from 'next'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { Typography } from 'antd';
 
