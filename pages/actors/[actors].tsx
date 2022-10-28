@@ -1,10 +1,6 @@
 import type { NextPage } from 'next'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { Layout, List } from 'antd';
-import Link from 'next/link';
 import { Typography } from 'antd';
-const { Title } = Typography;
-
 
 export async function getServerSideProps(context) {
     console.log(context.query)
@@ -14,16 +10,17 @@ export async function getServerSideProps(context) {
     });
     const { data } = await client.query({
         query: gql`
-        query Query {
-          person {
+      query Query {
+        allPeople {
+          people {
+            id
             name
             eyeColor
-            birthYear
-            gender
-            id
+            height
           }
         }
-    `,
+      }
+  `,
     variables: {}
     });
     return {
@@ -33,12 +30,24 @@ export async function getServerSideProps(context) {
     }
 }
 
-const Actors: NextPage = (data) => {
-    console.log(data)
+const Actors: NextPage = (actor) => {
+    const data = actor.data.allPeople.people;
+    const { Title, Paragraph } = Typography;
+    //console.log(data)
     return (
-        <Layout>
-            <Title>{data.name}</Title>
-        </Layout >
+        <>
+    <Typography>
+      <Title>CHARACTERS</Title>
+      <Paragraph>An individual person or character within the Star Wars universe.</Paragraph>
+      <ul>
+            {data.map((char) => (
+            <li  key={char.id}><b>{char.name}</b> - eyecolor: {char.eyeColor}, height: {char.height}</li>
+            ))}
+      </ul>
+        
+    </Typography>
+    </>
+        
 
     )
 }
