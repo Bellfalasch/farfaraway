@@ -3,7 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useState } from "react";
-import { Card, Col, Row, Input, Space } from 'antd';
+import { Card, Col, Row, Input, Space, Icon, Avatar } from 'antd';
+const { Meta } = Card;
 
 import styles from '../styles/Home.module.css'
 
@@ -79,16 +80,31 @@ const Search: NextPage = (movies) => {
         
 
         <div className="site-card-wrapper">
-            <Row gutter={16}>
+            <Row gutter={16} style={{ marginBottom: 10, marginTop: 10 }}>
+            
               {filtered.map((film) => (
-                <Col span={8}>
+                <Col className="gutter-row" span={8} style={{ padding: 20}}>
                   <a href={`/movies/${film.id}`} key={film.id}>
-                    <Card key={film.id} title={film.title} bordered={false}>
-                      Director: {film.director}
+                    <Card 
+                      cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
+                      key={film.id}  bordered={false}>
+
+                        <Meta
+                          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                          title={film.title}
+                          description={[
+                            <div>
+                                <p>Director: {film.director}</p>
+                                <p> additional content</p>
+                             </div>
+                           ]}
+                        />                    
                     </Card>
                   </a>
-                </Col>
+                  </Col>
+                
               ))}
+              
             </Row>
           </div>
       </main>

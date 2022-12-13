@@ -1,11 +1,18 @@
 //import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import { useEffect } from "react";
+import SnowFall from "snow-fall-effect";
 import 'antd/dist/antd.css';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import { Menu } from 'antd';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    const snowFall = new SnowFall();
+    snowFall.init();
+    snowFall.makeItRain();
+  }, []);
   return (
     <Layout className="layout">
       <Header>
