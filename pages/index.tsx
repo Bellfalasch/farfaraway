@@ -4,6 +4,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { Layout, List } from 'antd';
 import Link from 'next/link';
 
+
 export async function getStaticProps() {
     const client = new ApolloClient({
         uri: 'https://swapi-graphql.netlify.app/.netlify/functions/index',

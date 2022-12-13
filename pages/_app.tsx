@@ -1,9 +1,9 @@
-//import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+
+import type { AppProps } from 'next/app';
 import 'antd/dist/antd.css';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import { Menu } from 'antd';
-
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
