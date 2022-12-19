@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { Typography } from 'antd';
 
+// @ts-ignore
 export async function getServerSideProps(context) {
     console.log(context.query)
     const client = new ApolloClient({
@@ -31,6 +32,7 @@ export async function getServerSideProps(context) {
 }
 
 const Actors: NextPage = (actor) => {
+  // @ts-ignore
     const data = actor.data.allPeople.people;
     const { Title, Paragraph } = Typography;
     //console.log(data)
@@ -40,7 +42,9 @@ const Actors: NextPage = (actor) => {
       <Title>CHARACTERS</Title>
       <Paragraph>An individual person or character within the Star Wars universe.</Paragraph>
       <ul>
-            {data.map((char) => (
+            {
+              // @ts-ignore
+            data.map((char) => (
             <li  key={char.id}><b>{char.name}</b> - eyecolor: {char.eyeColor}, height: {char.height}</li>
             ))}
       </ul>

@@ -1,48 +1,43 @@
-import { useRouter } from 'next/router'
-import client from "../../../apollo-client";
-import { ApolloProvider, gql, useQuery } from '@apollo/client';
 
 export default function Page({
   params,
 }: {
   params: { movies: string };
 }) {
-  return <h1>Hello, Next.js! {params.movies}</h1>;
-}
-/*
-const Movie = () => {
-  const router = useRouter()
-  const { movie } = router.query
-
-  const movieData = MovieInformation(movie as string);
-  console.log(JSON.stringify(movieData,null,4))
-  return (
-  <ApolloProvider client={client}>
-    <p>Movie: {movieData?.film?.title}</p>
-  </ApolloProvider>)
+  console.log(params.movies);
+  const movieData = getMovieData(params.movies as string);
+  console.log(JSON.stringify(movieData,null,4));
+  // @ts-ignore
+  return <h1>Hello {movieData?.film?.title}</h1>;
 }
 
-export default Movie
+async function getMovieData(id: string) {
+  const cleaned = decodeURIComponent(id)
+  const query = `
+      query getFilm {
+        film(id: "`+ cleaned + `") {
+          id
+          title
+          director
+          releaseDate
+          characterConnection {
+            edges {
+              node {
+                name
+              }
+            }
+          }
+        }
+      }
+  `;
 
-const GET_MOVIE_DATA = gql`
-  query getFilm($id: ID!) {
-    film(id: $id) {
-      id
-      title
-      director
-      releaseDate
-    }
-  }
-`;
+  const response = await fetch('https://swapi-graphql.netlify.app/.netlify/functions/index', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query
+    }),
+  })
+  return await response.json();
 
-function MovieInformation(movieId: string) {
-  const { loading, error, data } = useQuery(GET_MOVIE_DATA, {
-    client,
-    variables: { id: movieId },
-  });
-
-  if (loading) return null;
-  if (error) return `Error! ${error}`;
-
-  return data;
-}*/
+}
