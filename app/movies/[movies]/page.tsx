@@ -6,37 +6,53 @@ export default function Page({
 }) {
   console.log(params.movies);
   const movieData = getMovieData(params.movies as string);
-  console.log(JSON.stringify(movieData,null,4));
-  // @ts-ignore
-  return <h1>Hello {movieData?.film?.title}</h1>;
+  if (movieData) {
+    console.log(JSON.stringify(movieData,null,4));
+    // @ts-ignore
+    return <h1>Hello {movieData?.film?.title}</h1>;
+  } else {
+    return <h1>Nothing found</h1>
+  }
 }
 
 async function getMovieData(id: string) {
-  const cleaned = decodeURIComponent(id)
+  const cleaned = decodeURIComponent(id);
+  console.log(cleaned);
   const query = `
-      query getFilm {
-        film(id: "`+ cleaned + `") {
-          id
-          title
-          director
-          releaseDate
-          characterConnection {
-            edges {
-              node {
-                name
-              }
+    query getFilm($id: ID!)
+    {
+      film(id: $id) {
+      {
+        id
+        title
+        director
+        releaseDate
+        characterConnection
+        {
+          edges
+          {
+            node
+            {
+              name
             }
           }
         }
       }
+    }
   `;
+  //console.log(JSON.stringify(query,null,4));
 
   const response = await fetch('https://swapi-graphql.netlify.app/.netlify/functions/index', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      query
-    }),
+    headers: {
+      "content-type": "application/json",
+      "Cache-Control": "no-store",
+    },
+    body:
+      JSON.stringify({
+        query: query,
+        variables: { id: cleaned }
+      }),
   })
   return await response.json();
 
