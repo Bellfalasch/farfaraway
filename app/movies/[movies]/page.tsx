@@ -21,7 +21,7 @@ async function getMovieData(id: string) {
   const query = `
     query getFilm($id: ID!)
     {
-      film(id: $id) {
+      film(id: $id)
       {
         id
         title
@@ -50,8 +50,8 @@ async function getMovieData(id: string) {
     },
     body:
       JSON.stringify({
-        query: query,
-        variables: { id: cleaned }
+        "query": query,
+        "variables": { "id": cleaned }
       }),
   })
   return await response.json();
