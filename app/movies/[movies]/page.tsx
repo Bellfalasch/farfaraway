@@ -1,3 +1,4 @@
+import { getThisMovie } from "../../queries";
 
 async function Page({
   params,
@@ -26,30 +27,6 @@ async function Page({
 async function getMovieData(id: string) {
   const cleaned = decodeURIComponent(id);
   console.log(cleaned);
-  const query = `
-    query getFilm($id: ID!)
-    {
-      film(id: $id)
-      {
-        id
-        episodeID
-        title
-        director
-        releaseDate
-        characterConnection
-        {
-          edges
-          {
-            node
-            {
-              name
-            }
-          }
-        }
-      }
-    }
-  `;
-  //console.log(JSON.stringify(query,null,4));
 
   const response = await fetch(
     'https://swapi-graphql.netlify.app/.netlify/functions/index',
@@ -61,7 +38,7 @@ async function getMovieData(id: string) {
       },
       body:
         JSON.stringify({
-          query: query,
+          query: getThisMovie,
           variables: { id: cleaned }
         }),
     }
