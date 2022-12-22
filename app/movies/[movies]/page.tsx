@@ -9,7 +9,15 @@ async function Page({
   if (movieData) {
     console.log(JSON.stringify(movieData,null,4));
     // @ts-ignore
-    return <h1>Hello {movieData?.data?.film?.title}</h1>;
+    const film = movieData?.data?.film;
+    return (
+      <>
+        <h1>Star Wars {film?.episodeID}</h1>
+        <h2>{film?.title}</h2>
+        <h3>Directed by {film?.director}</h3>
+        <h4>Released {film?.releaseDate}</h4>
+      </>
+    );
   } else {
     return <h1>Nothing found</h1>
   }
@@ -24,6 +32,7 @@ async function getMovieData(id: string) {
       film(id: $id)
       {
         id
+        episodeID
         title
         director
         releaseDate
